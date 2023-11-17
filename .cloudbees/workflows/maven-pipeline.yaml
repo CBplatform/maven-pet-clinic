@@ -27,14 +27,10 @@ jobs:
       - name: Jfrog configure
         uses: cloudbees-io/configure-oci-credentials@v1
         with:
-          registry: mycbplatform
+          registry: testcbplatform
           username: ${{ vars.jfrogTestCBusername }}
           password: ${{ secrets.jfrogTestCBpassword }}
       - name: Push image to the configured OCI Registry
         uses: cloudbees-io/kaniko@v1
         with:
           destination: maven-pet-clinic-libs-snapshot
-         
-
-
-     
