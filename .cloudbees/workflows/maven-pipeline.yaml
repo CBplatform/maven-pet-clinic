@@ -15,22 +15,3 @@ jobs:
         shell: sh
         run: |
           mvn clean verify -Dtest="*,!MySql*,!Postgres*"
-  SonarQube:
-    needs: build
-    steps:
-      - uses: cloudbees-io/sonarqube-bundled-sast-scan-code@v1
-        name: Run SonarQube scan
-        kind: scan
-  JFrog:
-    needs: SonarQube
-    steps:
-      - name: Jfrog configure
-        uses: cloudbees-io/configure-oci-credentials@v1
-        with:
-          registry: testcbplatform
-          username: ${{ vars.jfrogTestCBusername }}
-          password: ${{ secrets.jfrogTestCBpassword }}
-      - name: Push image to the configured OCI Registry
-        uses: cloudbees-io/kaniko@v1
-        with:
-          destination: maven-pet-clinic-libs-snapshot
